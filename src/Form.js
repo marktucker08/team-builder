@@ -1,15 +1,17 @@
 import React, {useState} from 'react';
 
-function Form() {
-    const [teamMember, setTeamMember] = useState({ name: "", email: "", role: "" });
+function Form(props) {
+    const [formValues, setFormValues] = useState({ name: "", email: "", role: "" });
 
     const handleChange = event => {
-      setTeamMember({ ...teamMember, [event.target.name]: event.target.value });
+      setFormValues({ ...formValues, [event.target.name]: event.target.value });
     };
 
     const handleSubmit = event => {
         event.preventDefault();
-        console.log(teamMember);
+        console.log(formValues);
+        props.setMembers(props.members.concat({ name: formValues.name, email: formValues.email, role: formValues.role }));
+        setFormValues({ name: "", email: "", role: "" });
     }
 
     return (
@@ -20,7 +22,7 @@ function Form() {
               <input
                 type="text"
                 name="name"
-                value={teamMember.name}
+                value={formValues.name}
                 onChange={event => handleChange(event)}
               />
             </label>
@@ -29,7 +31,7 @@ function Form() {
               <input
                 type="text"
                 name="email"
-                value={teamMember.email}
+                value={formValues.email}
                 onChange={event => handleChange(event)}
               />
             </label>
@@ -38,11 +40,11 @@ function Form() {
               <input
                 type="text"
                 name="role"
-                value={teamMember.role}
+                value={formValues.role}
                 onChange={event => handleChange(event)}
               />
             </label>
-            <button>Submit!</button>
+            <button>Add Team Member!</button>
           </form>
         </div>
       );
